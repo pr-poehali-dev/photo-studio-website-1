@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -6,83 +6,32 @@ import { Calendar } from '@/components/ui/calendar';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import Icon from '@/components/ui/icon';
+import { loadContent, SiteContent } from '@/lib/content';
+import { useNavigate } from 'react-router-dom';
 
 const Index = () => {
   const [date, setDate] = useState<Date | undefined>(new Date());
   const [selectedTime, setSelectedTime] = useState<string>('');
   const [activeSection, setActiveSection] = useState('home');
+  const [content, setContent] = useState<SiteContent>(loadContent());
+  const navigate = useNavigate();
 
-  const portfolioImages = [
-    'https://cdn.poehali.dev/projects/a71b4c95-c282-44f4-a183-ded68c7bf58b/files/ac59771a-5f60-4817-a899-b59d54a72e04.jpg',
-    'https://cdn.poehali.dev/projects/a71b4c95-c282-44f4-a183-ded68c7bf58b/files/a9ca06e9-77ad-4c36-89ef-3831023abaca.jpg',
-    'https://cdn.poehali.dev/projects/a71b4c95-c282-44f4-a183-ded68c7bf58b/files/cfa0f17f-4195-49e8-976a-b5785d15a273.jpg',
-  ];
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setContent(loadContent());
+    }, 1000);
+    return () => clearInterval(interval);
+  }, []);
 
-  const services = [
-    {
-      title: 'Портретная съёмка',
-      price: 'от 5 000 ₽',
-      duration: '1-2 часа',
-      description: 'Индивидуальная или семейная фотосессия в студии или на природе',
-      icon: 'User',
-    },
-    {
-      title: 'Свадебная съёмка',
-      price: 'от 25 000 ₽',
-      duration: 'весь день',
-      description: 'Полное сопровождение торжества, от сборов до банкета',
-      icon: 'Heart',
-    },
-    {
-      title: 'Предметная съёмка',
-      price: 'от 3 000 ₽',
-      duration: '1-3 часа',
-      description: 'Фотографии товаров для каталогов и интернет-магазинов',
-      icon: 'Package',
-    },
-    {
-      title: 'Аренда студии',
-      price: 'от 1 500 ₽/час',
-      duration: 'от 1 часа',
-      description: 'Профессиональная студия с освещением и реквизитом',
-      icon: 'Camera',
-    },
-  ];
+
+
+
 
   const timeSlots = ['10:00', '12:00', '14:00', '16:00', '18:00', '20:00'];
 
-  const reviews = [
-    {
-      name: 'Анна Петрова',
-      text: 'Невероятная атмосфера и профессионализм! Фотографии превзошли все ожидания.',
-      rating: 5,
-    },
-    {
-      name: 'Дмитрий Соколов',
-      text: 'Отличная студия с современным оборудованием. Рекомендую!',
-      rating: 5,
-    },
-    {
-      name: 'Мария Иванова',
-      text: 'Спасибо за чудесную свадебную фотосессию! Каждый кадр - произведение искусства.',
-      rating: 5,
-    },
-  ];
 
-  const blogPosts = [
-    {
-      title: 'Как подготовиться к фотосессии',
-      date: '15 октября 2025',
-      excerpt: 'Советы по выбору образа, макияжу и позированию для идеальных снимков',
-      image: portfolioImages[0],
-    },
-    {
-      title: 'Тренды фотографии 2025',
-      date: '10 октября 2025',
-      excerpt: 'Актуальные стили и приёмы в современной фотографии',
-      image: portfolioImages[1],
-    },
-  ];
+
+
 
   const scrollToSection = (sectionId: string) => {
     setActiveSection(sectionId);
@@ -186,16 +135,12 @@ const Index = () => {
         <div className="container mx-auto">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div className="space-y-6 animate-fade-in">
-              <Badge className="bg-accent text-accent-foreground">Креативная фотостудия</Badge>
+              <Badge className="bg-accent text-accent-foreground">{content.hero.badge}</Badge>
               <h2 className="text-6xl md:text-7xl font-bold font-heading leading-tight">
-                Создаём{' '}
-                <span className="bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
-                  искусство
-                </span>{' '}
-                из мгновений
+                {content.hero.title}
               </h2>
               <p className="text-xl text-muted-foreground leading-relaxed">
-                Профессиональная фотосъёмка и аренда студии с креативным подходом к каждому кадру
+                {content.hero.subtitle}
               </p>
               <div className="flex gap-4">
                 <Button 
@@ -214,7 +159,7 @@ const Index = () => {
               <div className="absolute -top-10 -right-10 w-72 h-72 bg-primary/20 rounded-full blur-3xl animate-float"></div>
               <div className="absolute -bottom-10 -left-10 w-72 h-72 bg-secondary/20 rounded-full blur-3xl animate-float" style={{ animationDelay: '1s' }}></div>
               <img
-                src={portfolioImages[0]}
+                src={content.portfolioImages[0]?.url}
                 alt="Hero"
                 className="relative rounded-3xl shadow-2xl w-full h-[600px] object-cover"
               />
@@ -237,10 +182,10 @@ const Index = () => {
               <TabsTrigger value="product">Предметка</TabsTrigger>
             </TabsList>
             <TabsContent value="all" className="grid md:grid-cols-3 gap-6">
-              {portfolioImages.map((img, idx) => (
+              {content.portfolioImages.map((image, idx) => (
                 <div key={idx} className="group relative overflow-hidden rounded-2xl cursor-pointer animate-scale-in" style={{ animationDelay: `${idx * 0.1}s` }}>
                   <img
-                    src={img}
+                    src={image.url}
                     alt={`Portfolio ${idx + 1}`}
                     className="w-full h-96 object-cover transition-transform duration-500 group-hover:scale-110"
                   />
@@ -255,17 +200,17 @@ const Index = () => {
             </TabsContent>
             <TabsContent value="portrait" className="grid md:grid-cols-3 gap-6">
               <div className="group relative overflow-hidden rounded-2xl">
-                <img src={portfolioImages[0]} alt="Portrait" className="w-full h-96 object-cover" />
+                <img src={content.portfolioImages[0]?.url} alt="Portrait" className="w-full h-96 object-cover" />
               </div>
             </TabsContent>
             <TabsContent value="wedding" className="grid md:grid-cols-3 gap-6">
               <div className="group relative overflow-hidden rounded-2xl">
-                <img src={portfolioImages[2]} alt="Wedding" className="w-full h-96 object-cover" />
+                <img src={content.portfolioImages[2]?.url} alt="Wedding" className="w-full h-96 object-cover" />
               </div>
             </TabsContent>
             <TabsContent value="product" className="grid md:grid-cols-3 gap-6">
               <div className="group relative overflow-hidden rounded-2xl">
-                <img src={portfolioImages[1]} alt="Product" className="w-full h-96 object-cover" />
+                <img src={content.portfolioImages[1]?.url} alt="Product" className="w-full h-96 object-cover" />
               </div>
             </TabsContent>
           </Tabs>
@@ -279,7 +224,7 @@ const Index = () => {
             <p className="text-xl text-muted-foreground">Что мы предлагаем</p>
           </div>
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {services.map((service, idx) => (
+            {content.services.map((service, idx) => (
               <Card key={idx} className="group hover:shadow-xl transition-all duration-300 hover:-translate-y-2 border-2 hover:border-primary/50 animate-fade-in" style={{ animationDelay: `${idx * 0.1}s` }}>
                 <CardContent className="p-6 space-y-4">
                   <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-primary to-secondary flex items-center justify-center">
@@ -302,30 +247,22 @@ const Index = () => {
         <div className="container mx-auto">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <img
-              src={portfolioImages[1]}
+              src={content.portfolioImages[1]?.url}
               alt="Studio"
               className="rounded-3xl shadow-2xl w-full h-[500px] object-cover animate-scale-in"
             />
             <div className="space-y-6 animate-fade-in">
               <h2 className="text-5xl font-bold font-heading">О студии</h2>
               <p className="text-lg text-muted-foreground leading-relaxed">
-                F.STUDIO by MARIA MOROZOVA — это креативное пространство, где рождаются уникальные визуальные истории. 
-                Мы создали студию мечты для фотографов и моделей с профессиональным оборудованием и 
-                нестандартным подходом к каждой съёмке.
+                {content.about.description}
               </p>
               <div className="grid grid-cols-3 gap-6 pt-6">
-                <div className="text-center">
-                  <div className="text-4xl font-bold text-primary mb-2">5+</div>
-                  <div className="text-sm text-muted-foreground">лет опыта</div>
-                </div>
-                <div className="text-center">
-                  <div className="text-4xl font-bold text-primary mb-2">1000+</div>
-                  <div className="text-sm text-muted-foreground">съёмок</div>
-                </div>
-                <div className="text-center">
-                  <div className="text-4xl font-bold text-primary mb-2">98%</div>
-                  <div className="text-sm text-muted-foreground">довольных клиентов</div>
-                </div>
+                {content.about.stats.map((stat, index) => (
+                  <div key={index} className="text-center">
+                    <div className="text-4xl font-bold text-primary mb-2">{stat.value}</div>
+                    <div className="text-sm text-muted-foreground">{stat.label}</div>
+                  </div>
+                ))}
               </div>
             </div>
           </div>
@@ -387,7 +324,7 @@ const Index = () => {
             <p className="text-xl text-muted-foreground">Что говорят наши клиенты</p>
           </div>
           <div className="grid md:grid-cols-3 gap-6">
-            {reviews.map((review, idx) => (
+            {content.reviews.map((review, idx) => (
               <Card key={idx} className="animate-fade-in" style={{ animationDelay: `${idx * 0.1}s` }}>
                 <CardContent className="p-6 space-y-4">
                   <div className="flex gap-1">
@@ -419,7 +356,7 @@ const Index = () => {
             <p className="text-xl text-muted-foreground">Полезные статьи о фотографии</p>
           </div>
           <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
-            {blogPosts.map((post, idx) => (
+            {content.blogPosts.map((post, idx) => (
               <Card key={idx} className="group overflow-hidden hover:shadow-xl transition-all duration-300 cursor-pointer animate-scale-in" style={{ animationDelay: `${idx * 0.1}s` }}>
                 <img
                   src={post.image}
@@ -463,7 +400,7 @@ const Index = () => {
                 </div>
                 <div>
                   <h3 className="font-semibold mb-1">Телефон</h3>
-                  <p className="text-muted-foreground">+7 (980) 865-42-80</p>
+                  <p className="text-muted-foreground">{content.contacts.phone}</p>
                 </div>
               </div>
               <div className="flex items-start gap-4">
@@ -472,7 +409,7 @@ const Index = () => {
                 </div>
                 <div>
                   <h3 className="font-semibold mb-1">Email</h3>
-                  <p className="text-muted-foreground">info@lensstudio.ru</p>
+                  <p className="text-muted-foreground">{content.contacts.email}</p>
                 </div>
               </div>
               <div className="flex items-start gap-4">
@@ -481,7 +418,7 @@ const Index = () => {
                 </div>
                 <div>
                   <h3 className="font-semibold mb-1">Режим работы</h3>
-                  <p className="text-muted-foreground">Ежедневно с 10:00 до 22:00</p>
+                  <p className="text-muted-foreground">{content.contacts.hours}</p>
                 </div>
               </div>
             </div>

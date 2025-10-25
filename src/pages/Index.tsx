@@ -96,7 +96,7 @@ const Index = () => {
         <div className="container mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
             <h1 className="text-2xl font-bold font-heading bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
-              Studio By Maria Morozova
+              F.STUDIO by MARIA MOROZOVA
             </h1>
             <div className="hidden md:flex items-center gap-6">
               {[
@@ -309,7 +309,7 @@ const Index = () => {
             <div className="space-y-6 animate-fade-in">
               <h2 className="text-5xl font-bold font-heading">О студии</h2>
               <p className="text-lg text-muted-foreground leading-relaxed">
-                Studio By Maria Morozova — это креативное пространство, где рождаются уникальные визуальные истории. 
+                F.STUDIO by MARIA MOROZOVA — это креативное пространство, где рождаются уникальные визуальные истории. 
                 Мы создали студию мечты для фотографов и моделей с профессиональным оборудованием и 
                 нестандартным подходом к каждой съёмке.
               </p>
@@ -517,7 +517,7 @@ const Index = () => {
           <div className="flex flex-col md:flex-row items-center justify-between gap-6">
             <div className="text-center md:text-left">
               <h3 className="text-2xl font-bold font-heading bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent mb-2">
-                Studio By Maria Morozova
+                F.STUDIO by MARIA MOROZOVA
               </h3>
               <p className="text-muted-foreground">Создаём искусство из мгновений</p>
             </div>
@@ -534,7 +534,7 @@ const Index = () => {
             </div>
           </div>
           <div className="mt-8 pt-8 border-t text-center text-muted-foreground text-sm">
-            © 2024 Studio By Maria Morozova. Все права защищены.
+            © 2024 F.STUDIO by MARIA MOROZOVA. Все права защищены.
           </div>
         </div>
       </footer>

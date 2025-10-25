@@ -463,7 +463,7 @@ const Index = () => {
                 </div>
                 <div>
                   <h3 className="font-semibold mb-1">Телефон</h3>
-                  <p className="text-muted-foreground">+7-980-865-42-80</p>
+                  <p className="text-muted-foreground">+7 (980) 865-42-80</p>
                 </div>
               </div>
               <div className="flex items-start gap-4">

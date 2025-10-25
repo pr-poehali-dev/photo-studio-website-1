@@ -198,13 +198,13 @@ const Index = () => {
                 Профессиональная фотосъёмка и аренда студии с креативным подходом к каждому кадру
               </p>
               <div className="flex gap-4">
-                <Dialog>
-                  <DialogTrigger asChild>
-                    <Button size="lg" className="bg-primary hover:bg-primary/90 text-lg px-8">
-                      Записаться на съёмку
-                    </Button>
-                  </DialogTrigger>
-                </Dialog>
+                <Button 
+                  size="lg" 
+                  className="bg-primary hover:bg-primary/90 text-lg px-8"
+                  onClick={() => window.open('https://wa.me/79808654280', '_blank')}
+                >
+                  Записаться на съёмку
+                </Button>
                 <Button size="lg" variant="outline" onClick={() => scrollToSection('portfolio')} className="text-lg px-8">
                   Портфолио
                 </Button>

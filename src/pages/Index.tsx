@@ -257,12 +257,18 @@ const Index = () => {
                 {content.about.description}
               </p>
               <div className="grid grid-cols-3 gap-6 pt-6">
-                {content.about.stats.map((stat, index) => (
-                  <div key={index} className="text-center">
-                    <div className="text-4xl font-bold text-primary mb-2">{stat.value}</div>
-                    <div className="text-sm text-muted-foreground">{stat.label}</div>
-                  </div>
-                ))}
+                <div className="text-center">
+                  <div className="text-4xl font-bold text-primary mb-2">{content.about.stats.years}</div>
+                  <div className="text-sm text-muted-foreground">Лет опыта</div>
+                </div>
+                <div className="text-center">
+                  <div className="text-4xl font-bold text-primary mb-2">{content.about.stats.shoots}</div>
+                  <div className="text-sm text-muted-foreground">Съёмок</div>
+                </div>
+                <div className="text-center">
+                  <div className="text-4xl font-bold text-primary mb-2">{content.about.stats.satisfaction}</div>
+                  <div className="text-sm text-muted-foreground">Довольных клиентов</div>
+                </div>
               </div>
             </div>
           </div>
